@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "interview_templates",
+  "info": {
+    "singularName": "interview-template",
+    "pluralName": "interview-templates",
+    "displayName": "Interview Template",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "blocks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.block",
+      "required": true
+    },
+    "public": {
+      "type": "boolean",
+      "default": false
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "interviewTemplates"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "interviewTemplates"
+    }
+  }
+}

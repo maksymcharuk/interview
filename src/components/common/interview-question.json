@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_common_interview_questions",
+  "info": {
+    "displayName": "Interview Question"
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "required": true,
+      "unique": false
+    },
+    "answer": {
+      "type": "richtext",
+      "required": true
+    },
+    "score": {
+      "type": "integer"
+    }
+  }
+}

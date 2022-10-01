@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "interview_processes",
+  "info": {
+    "singularName": "interview-process",
+    "pluralName": "interview-processes",
+    "displayName": "Interview Process",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "score": {
+      "type": "integer"
+    },
+    "blocks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.interview-block"
+    },
+    "interview": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::interview.interview",
+      "inversedBy": "interviewProcess"
+    }
+  }
+}

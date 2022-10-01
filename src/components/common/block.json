@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_common_blocks",
+  "info": {
+    "displayName": "Block",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::question.question"
+    }
+  }
+}

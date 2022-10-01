@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "interviews",
+  "info": {
+    "singularName": "interview",
+    "pluralName": "interviews",
+    "displayName": "Interview",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "project": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::project.project"
+    },
+    "candidate": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::candidate.candidate"
+    },
+    "notes": {
+      "type": "richtext"
+    },
+    "interviewProcess": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::interview-process.interview-process",
+      "inversedBy": "interview"
+    }
+  }
+}

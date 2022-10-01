@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_common_interview_blocks",
+  "info": {
+    "displayName": "Interview Block",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "score": {
+      "type": "integer"
+    },
+    "questions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "common.interview-question"
+    }
+  }
+}
