@@ -1,7 +1,8 @@
 {
   "collectionName": "components_common_interview_questions",
   "info": {
-    "displayName": "Interview Question"
+    "displayName": "Interview Question",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -16,6 +17,9 @@
     },
     "score": {
       "type": "integer"
+    },
+    "notes": {
+      "type": "text"
     }
   }
 }
