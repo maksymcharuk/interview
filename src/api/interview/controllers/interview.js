@@ -6,73 +6,74 @@
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
-const validateRequired = (data, fields) => {
-  fields.forEach((key) => {
-    if (fields.includes(key) && !data[key]) {
-      throw new Error(`Missing required property ${key}`);
-    }
-  });
-};
-
 module.exports = createCoreController(
   "api::interview.interview",
   ({ strapi }) => ({
-    async create(ctx) {
-      const { templateId, candidateId, projectId, notes } = ctx.request.body;
-      validateRequired(ctx.request.body, [
-        "templateId",
-        "candidateId",
-        "projectId",
-        "notes",
-      ]);
-      const entity = await strapi
-        .service("api::interview-template.interview-template")
-        .findOne(templateId, {
-          populate: {
-            blocks: {
-              populate: {
-                questions: true,
+    async updateQuestion(ctx) {
+      const { interviewId, questionId, data } = ctx.request.body;
+      let interview;
+
+      try {
+        interview = await strapi
+          .service("api::interview.interview")
+          .findOne(interviewId, {
+            populate: {
+              interviewProcess: {
+                populate: {
+                  blocks: {
+                    populate: {
+                      questions: true,
+                    },
+                  },
+                },
               },
             },
-            tags: true,
-          },
-        });
-
-      try {
-        await strapi.service("api::candidate.candidate").findOne(candidateId);
+          });
       } catch (error) {
         throw new Error(error);
       }
 
-      try {
-        await strapi.service("api::project.project").findOne(projectId);
-      } catch (error) {
-        throw new Error(error);
-      }
-
-      let { blocks } = entity;
-      blocks.forEach((block) => {
-        delete block.id;
-        block.questions.forEach((question) => {
-          delete question.id;
+      let interviewProcessScore = 0;
+      interview.interviewProcess.blocks.forEach((block) => {
+        let blockScore = 0;
+        block.questions.forEach((q) => {
+          if (q.id === questionId) {
+            q.notes = data.notes;
+            q.score = data.score;
+          }
+          blockScore += q.score;
         });
+        block.score = blockScore;
+        interviewProcessScore += blockScore;
       });
-      const interviewProcess = await strapi
-        .service("api::interview-process.interview-process")
-        .create({ data: { blocks } });
-      const interview = await strapi.service("api::interview.interview").create(
-        {
-          data: {
-            interviewProcess: interviewProcess.id,
-            candidate: candidateId,
-            project: projectId,
-            notes,
-          },
-        },
-        { populate: "*" }
-      );
+      interview.interviewProcess.score = interviewProcessScore;
 
-      return interview;
+      const interviewProcessId = interview.interviewProcess.id;
+      delete interview.interviewProcess.id;
+
+      await strapi
+        .service("api::interview-process.interview-process")
+        .update(interviewProcessId, {
+          data: interview.interviewProcess,
+        });
+
+      return await strapi
+        .service("api::interview.interview")
+        .findOne(interviewId, {
+          populate: {
+            project: true,
+            candidate: true,
+            interviewProcess: {
+              populate: {
+                blocks: {
+                  populate: {
+                    questions: true,
+                  },
+                },
+              },
+            },
+          },
+        });
     },
   })
 );

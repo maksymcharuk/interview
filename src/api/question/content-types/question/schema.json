@@ -4,7 +4,8 @@
   "info": {
     "singularName": "question",
     "pluralName": "questions",
-    "displayName": "Question"
+    "displayName": "Question",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -25,6 +26,10 @@
       "relation": "manyToMany",
       "target": "api::tag.tag",
       "mappedBy": "questions"
+    },
+    "title": {
+      "type": "string",
+      "required": true
     }
   }
 }
